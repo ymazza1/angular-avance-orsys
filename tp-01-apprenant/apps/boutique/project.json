@@ -1,0 +1,75 @@
+{
+  "name": "boutique",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "mc",
+  "sourceRoot": "apps/boutique/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/boutique",
+        "index": "apps/boutique/src/index.html",
+        "browser": "apps/boutique/src/main.ts",
+        "polyfills": [],
+        "tsConfig": "apps/boutique/tsconfig.app.json",
+        "styles": [
+          "apps/boutique/src/styles.scss"
+        ],
+        "assets": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kB",
+              "maximumError": "800kB"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "4kB"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular/build:dev-server",
+      "options": {
+        "port": 4200
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "boutique:build:development"
+        },
+        "production": {
+          "buildTarget": "boutique:build:production"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/boutique",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

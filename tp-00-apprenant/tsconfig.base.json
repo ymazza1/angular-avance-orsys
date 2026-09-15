@@ -1,0 +1,48 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "lib": [
+      "ES2022",
+      "DOM"
+    ],
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@maison/catalogue/data-access": [
+        "./libs/catalogue/data-access/src/index.ts"
+      ],
+      "@maison/catalogue/domaine": [
+        "./libs/catalogue/domaine/src/index.ts"
+      ],
+      "@maison/catalogue/feature": [
+        "./libs/catalogue/feature/src/index.ts"
+      ],
+      "@maison/catalogue/ui": [
+        "./libs/catalogue/ui/src/index.ts"
+      ],
+      "@maison/livraison/data-access": [
+        "./libs/livraison/data-access/src/index.ts"
+      ],
+      "@maison/livraison/domaine": [
+        "./libs/livraison/domaine/src/index.ts"
+      ],
+      "@maison/partage/util": [
+        "./libs/partage/util/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
+}

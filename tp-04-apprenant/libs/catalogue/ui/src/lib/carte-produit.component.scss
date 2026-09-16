@@ -1,0 +1,14 @@
+.carte {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid #d0d0d0;
+
+  img { width: 100%; height: auto; object-fit: cover; background: #f1f1f1; }
+  h3 { margin: 0; font-size: 1rem; }
+  .prix { display: flex; gap: 0.5rem; align-items: baseline; }
+  .avis { color: #6e6e6e; font-size: 0.875rem; }
+}
+
+.carte--indisponible { opacity: 0.55; }

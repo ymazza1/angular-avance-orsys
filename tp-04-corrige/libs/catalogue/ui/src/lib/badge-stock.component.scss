@@ -1,0 +1,14 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+}
+
+.badge--inconnu { color: #6e6e6e; }
+.badge--rupture { color: #8a1c1c; }
+.badge--tendu { color: #8a5a1c; }
+.badge--dispo { color: #1c6e3a; }

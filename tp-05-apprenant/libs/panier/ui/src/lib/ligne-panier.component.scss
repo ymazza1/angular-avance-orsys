@@ -1,0 +1,13 @@
+.ligne {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.nom { font-weight: 600; }
+.unitaire { color: #6e6e6e; font-size: 0.875rem; }
+input[type='number'] { width: 4rem; padding: 0.25rem; }
+.total { min-width: 6rem; text-align: right; }

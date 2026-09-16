@@ -1,0 +1,25 @@
+{
+  "name": "catalogue-domaine",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/catalogue/domaine/src",
+  "tags": [
+    "type:domaine",
+    "domaine:catalogue"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/catalogue/domaine",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

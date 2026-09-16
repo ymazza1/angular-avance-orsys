@@ -1,0 +1,25 @@
+{
+  "name": "panier-domaine",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/panier/domaine/src",
+  "tags": [
+    "type:domaine",
+    "domaine:panier"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/panier/domaine",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

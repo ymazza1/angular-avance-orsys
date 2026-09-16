@@ -1,0 +1,25 @@
+{
+  "name": "panier-ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/panier/ui/src",
+  "tags": [
+    "type:ui",
+    "domaine:panier"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/panier/ui",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

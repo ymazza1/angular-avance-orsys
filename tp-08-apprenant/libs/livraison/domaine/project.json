@@ -1,0 +1,25 @@
+{
+  "name": "livraison-domaine",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/livraison/domaine/src",
+  "tags": [
+    "type:domaine",
+    "domaine:livraison"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/livraison/domaine",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

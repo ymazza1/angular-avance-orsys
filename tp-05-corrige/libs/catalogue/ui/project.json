@@ -1,0 +1,25 @@
+{
+  "name": "catalogue-ui",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/catalogue/ui/src",
+  "tags": [
+    "type:ui",
+    "domaine:catalogue"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/catalogue/ui",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

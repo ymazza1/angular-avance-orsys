@@ -1,0 +1,140 @@
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { CatalogueFacade, StockStore } from '@maison/catalogue/data-access';
+import { Piece, Produit } from '@maison/catalogue/domaine';
+import { BadgeStockComponent, CarteProduitComponent } from '@maison/catalogue/ui';
+import { PanierStore } from '@maison/panier/data-access';
+import { LignePanierComponent } from '@maison/panier/ui';
+
+const PIECES: readonly Piece[] = ['salon', 'salle-a-manger', 'chambre', 'bureau'];
+
+/**
+ * Composant routé : il orchestre, il ne calcule pas. Son seul travail est de
+ * traduire des gestes utilisateur en commandes de façade, et de distribuer
+ * l'état aux composants d'affichage.
+ */
+@Component({
+  selector: 'mc-catalogue-page',
+  imports: [CarteProduitComponent, BadgeStockComponent, LignePanierComponent, CurrencyPipe, RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <aside class="panier" aria-label="Panier">
+      <h2>Panier — {{ panier.nbArticles() }} article(s)</h2>
+
+      @if (panier.estVide()) {
+        <p>Votre panier est vide.</p>
+      } @else {
+        @for (ligne of panier.lignes(); track ligne.produitId) {
+          <mc-ligne-panier
+            [ligne]="ligne"
+            [quantite]="ligne.quantite"
+            (quantiteChange)="panier.changerQuantite(ligne.produitId, $event)"
+            (supprimer)="panier.retirer($event)"
+          />
+        }
+
+        <dl class="totaux">
+          <dt>Sous-total</dt>
+          <dd>{{ panier.sousTotal() | currency: 'EUR' }}</dd>
+          <dt>Livraison</dt>
+          <dd>{{ panier.fraisLivraison() | currency: 'EUR' }}</dd>
+          <dt>Total</dt>
+          <dd>{{ panier.total() | currency: 'EUR' }}</dd>
+        </dl>
+
+        <a class="commander" routerLink="/commande">Commander</a>
+        <button type="button" (click)="panier.vider()">Vider le panier</button>
+      }
+    </aside>
+
+    <header>
+      <h1>Notre catalogue</h1>
+
+      <input
+        type="search"
+        [value]="facade.filtres().recherche"
+        (input)="facade.rechercher($any($event.target).value)"
+        placeholder="Rechercher un meuble"
+        aria-label="Rechercher un meuble"
+      />
+
+      <nav aria-label="Filtrer par pièce">
+        <button type="button" (click)="facade.filtrerParPiece(null)">Toutes</button>
+        @for (piece of pieces; track piece) {
+          <button
+            type="button"
+            [attr.aria-pressed]="facade.filtres().piece === piece"
+            (click)="facade.filtrerParPiece(piece)"
+          >
+            {{ piece }}
+          </button>
+        }
+      </nav>
+    </header>
+
+    @if (facade.erreur()) {
+      <p role="alert">
+        Le catalogue est momentanément indisponible.
+        <button type="button" (click)="facade.rafraichir()">Réessayer</button>
+      </p>
+    } @else if (facade.enChargement()) {
+      <p aria-live="polite">Chargement du catalogue…</p>
+    } @else {
+      <p aria-live="polite">{{ facade.total() }} produits</p>
+
+      <ul class="grille">
+        @for (entree of produitsAvecStock(); track entree.produit.id) {
+          <li>
+            <mc-carte-produit [produit]="entree.produit" (ajouter)="ajouterAuPanier($event)" />
+            <mc-badge-stock [quantite]="entree.quantite" />
+          </li>
+        } @empty {
+          <li>Aucun produit ne correspond à ces critères.</li>
+        }
+      </ul>
+    }
+  `,
+  styleUrl: './catalogue.page.scss',
+})
+export class CataloguePage {
+  protected readonly facade = inject(CatalogueFacade);
+  protected readonly stocks = inject(StockStore);
+  protected readonly panier = inject(PanierStore);
+  protected readonly pieces = PIECES;
+
+  /**
+   * Les produits et leur stock, appariés UNE fois par changement.
+   *
+   * Avant, le template appelait `stocks.quantite(produit.id)` dans une
+   * liaison : une exécution par produit et par cycle de vérification. Sur
+   * vingt produits et quelques cycles par seconde, ça fait beaucoup de
+   * travail pour une valeur qui ne change que toutes les quinze secondes.
+   *
+   * Un `computed` ne recalcule que si `produits()` ou `stocks()` ont changé.
+   */
+  protected readonly produitsAvecStock = computed(() =>
+    this.facade.produits().map((produit) => ({
+      produit,
+      quantite: this.stocks.quantite(produit.id),
+    })),
+  );
+
+  constructor() {
+    this.facade.rafraichir();
+
+    /**
+     * Le stock des produits affichés est surveillé en continu. L'effet est
+     * légitime ici : il synchronise un service extérieur (une minuterie) avec
+     * un état réactif — il ne calcule rien.
+     */
+    effect(() => {
+      const ids = this.facade.produits().map((produit) => produit.id);
+      if (ids.length > 0) this.stocks.surveiller(ids);
+    });
+  }
+
+  protected ajouterAuPanier(produit: Produit): void {
+    this.panier.ajouter(produit);
+  }
+}

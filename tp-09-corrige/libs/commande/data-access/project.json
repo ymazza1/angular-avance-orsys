@@ -1,0 +1,25 @@
+{
+  "name": "commande-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/commande/data-access/src",
+  "tags": [
+    "type:data-access",
+    "domaine:commande"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/commande/data-access",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

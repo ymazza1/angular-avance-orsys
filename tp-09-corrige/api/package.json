@@ -1,0 +1,16 @@
+{
+  "name": "maison-et-co-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API de demonstration pour la formation Angular avance",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:instable": "node server.js --instable",
+    "start:jeton-court": "node server.js --jeton-court"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

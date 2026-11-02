@@ -1,0 +1,25 @@
+{
+  "name": "livraison-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/livraison/data-access/src",
+  "tags": [
+    "type:data-access",
+    "domaine:livraison"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/livraison/data-access",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

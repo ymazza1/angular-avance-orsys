@@ -1,0 +1,25 @@
+{
+  "name": "catalogue-data-access",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "prefix": "mc",
+  "sourceRoot": "libs/catalogue/data-access/src",
+  "tags": [
+    "type:data-access",
+    "domaine:catalogue"
+  ],
+  "targets": {
+    "test": {
+      "cache": true,
+      "inputs": [
+        "default",
+        "^production"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/catalogue/data-access",
+        "command": "vitest run --passWithNoTests"
+      }
+    }
+  }
+}

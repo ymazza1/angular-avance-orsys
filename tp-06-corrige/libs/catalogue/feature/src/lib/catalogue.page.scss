@@ -1,0 +1,20 @@
+
+.panier {
+  border: 1px solid #c9c9c9;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+
+  h2 { margin-top: 0; font-size: 1rem; }
+}
+
+.totaux {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0.25rem 1rem;
+  justify-content: start;
+  margin: 0.75rem 0;
+
+  dt { color: #6e6e6e; }
+  dd { margin: 0; text-align: right; }
+  dt:last-of-type, dd:last-of-type { font-weight: 700; }
+}
